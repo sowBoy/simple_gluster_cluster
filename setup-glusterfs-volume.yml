@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  become_user: devops
+  tasks:
+
+    - name: Create a directory if it does not exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0755'
+      with_items: [ /data/brick2/gv0, /data/brick2/gv1]
+
+- hosts: storageOne
+  become: yes
+  tasks:
+
+    - name: Create volume 
+      command: gluster volume create tintabGlusterFsVolume replica 3 "{{ storage_one }}":/data/brick2/gv0 "{{ storage_one }}":/data/brick2/gv1 "{{ storage_two }}":/data/brick2/gv0 "{{ storage_two }}":/data/brick2/gv1 "{{ storage_three }}":/data/brick2/gv0 "{{ storage_three }}":/data/brick2/gv1 force
+
+    - name: Start new created gluster volume
+      command: gluster volume start tintabGlusterFsVolume

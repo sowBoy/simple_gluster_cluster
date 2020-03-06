@@ -1,0 +1,52 @@
+- hosts: storageOne
+  become: yes
+  tasks:
+
+    - name: Configure Firewall for storageOne case
+      iptables:
+        chain: INPUT
+        jump: ACCEPT
+        protocol: all
+        source: "{{ item }}"
+      with_items: [ "{{ storage_two }}", "{{ storage_three }}" ]
+
+- hosts: storageTwo
+  become: yes
+  tasks:
+
+    - name: Configure Firewall for storageTwo case
+      iptables:
+        chain: INPUT
+        jump: ACCEPT
+        protocol: all
+        source: "{{ item }}"
+      with_items: [ "{{ storage_one }}", "{{ storage_three }}" ]
+   
+- hosts: storageThree
+  become: yes
+  tasks:
+
+    - name: Configure Firewall for storageThree case
+      iptables:
+        chain: INPUT
+        jump: ACCEPT
+        protocol: all
+        source: "{{ item }}"
+      with_items: [ "{{ storage_one }}", "{{ storage_two }}" ]
+     
+
+- hosts: storageTwo
+  become: yes
+  tasks:
+
+    - name: Execute command on storageTwo
+      command: gluster peer probe "{{ storage_one }}"
+
+- hosts: storageOne
+  become: yes
+  tasks:
+
+    - name: Execute command on storageOne
+      command: gluster peer probe "{{ item }}"
+      with_items: [ "{{ storage_two }}", "{{ storage_three }}" ]
+

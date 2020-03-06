@@ -1,0 +1,37 @@
+- hosts: all
+  become: yes
+  tasks:
+
+    - name: install aptitude
+      apt:
+        name: aptitude
+        state: present
+
+    - name: install sudo
+      apt:
+        name: sudo
+        state: present
+
+    - name: install ntp
+      apt:
+        name: ntp
+        state: present
+
+    - name: install parted
+      apt:
+        name: parted
+        state: present
+
+    - name: create the 'devops' user
+      user: name=devops append=yes state=present createhome=yes shell=/bin/bash
+
+    - name: allow 'devops' to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'devops ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: set up authorized keys for the devops user
+      authorized_key: user=devops key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub

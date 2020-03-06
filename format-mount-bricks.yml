@@ -1,0 +1,38 @@
+- hosts: all
+  become: yes
+  become_user: devops
+  tasks:
+
+    - name: Create a new primary partition
+      parted:
+        device: /dev/sdb
+        number: 1
+        state: present
+        unit: KiB
+    
+    - name: Change the owner
+      become: yes
+      become_user: root
+      file:
+        path: /dev/sdb1
+        owner: devops
+        group: disk
+
+    - name: Create a ext4 filesystem on /dev/sdb1
+      filesystem:
+        fstype: ext4
+        dev: /dev/sdb1
+
+    - name: Create a directory if it does not exist
+      file:
+        path: /data/brick2
+        state: directory
+        mode: '0755'
+
+    - name: Mount up device
+      mount:
+        path: /data/brick2
+        src: /dev/sdb1
+        fstype: ext4
+        state: present
+
