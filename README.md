@@ -71,7 +71,7 @@ transport.address-family: inet
 
 <h3>Conclusion</h3>
 
-Parmis les types de volumes kubernetes figure glusterFS.Donc une fois ce cluster monté vous pourrez le connecter à votre kubernetes.Un point que je voudrais signaler est que ce stack manque de flexbilité quant au nombre de machine du cluster.Il y a cerntainement un moyen de réecrire les playbooks firewall-and-trusted-pool-config.yml et setup-glusterfs-volume.yml afin d'assurer cette flexbilité.Il faut donc concevoir ce travail comme quelque chose qu'il est possible d'améliorer.
+Parmis les types de volumes kubernetes figure glusterFS.Donc une fois ce cluster monté vous pourrez le connecter à votre kubernetes.Un point que je voudrais signaler est que ce stack manque de flexbilité quant au nombre de machine du cluster.Il y a cerntainement un moyen de réecrire les playbooks <code>firewall-and-trusted-pool-config.yml</code> et <code>setup-glusterfs-volume.yml</code> afin d'assurer cette flexbilité.Il faut donc concevoir ce travail comme quelque chose qu'il est possible d'améliorer.
 
 
 
