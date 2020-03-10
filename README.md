@@ -10,6 +10,7 @@ Ce stack est conçu pour un cluster de 3 VMs avec l'OS DEBIAN 10 .Commencer par 
 <ul>
   <li>Ansible la version la plus récente de préférence</li>
   <li>Trois VMs avec DEBIAN 10 comme systeme d'exploitation</li>
+  <li>Avoir un disque supplementaire /dev/sdb sur chaque VM</li>
 </ul>
 
 <h4>NB:</h4>
