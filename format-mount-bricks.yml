@@ -1,6 +1,5 @@
 - hosts: all
   become: yes
-  become_user: devops
   tasks:
 
     - name: Create a new primary partition
@@ -9,14 +8,6 @@
         number: 1
         state: present
         unit: KiB
-    
-    - name: Change the owner
-      become: yes
-      become_user: root
-      file:
-        path: /dev/sdb1
-        owner: devops
-        group: disk
 
     - name: Create a ext4 filesystem on /dev/sdb1
       filesystem:

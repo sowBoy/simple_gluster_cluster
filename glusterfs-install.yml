@@ -64,3 +64,4 @@
       systemd :
         name: glusterd
         state: restarted
+
