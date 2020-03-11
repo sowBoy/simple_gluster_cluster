@@ -13,8 +13,15 @@
   become: yes
   tasks:
 
+    - name: Check if Gluster Volume exist
+      command: gluster volume info
+      register: about_volume
+
     - name: Create volume 
       command: gluster volume create tintabGlusterFsVolume replica 3 "{{ storage_one }}":/data/brick2/gv0 "{{ storage_one }}":/data/brick2/gv1 "{{ storage_two }}":/data/brick2/gv0 "{{ storage_two }}":/data/brick2/gv1 "{{ storage_three }}":/data/brick2/gv0 "{{ storage_three }}":/data/brick2/gv1 force
+      when: about_volume.stdout == ""
 
     - name: Start new created gluster volume
       command: gluster volume start tintabGlusterFsVolume
+      when: about_volume.stdout == ""
+
